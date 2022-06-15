@@ -36,7 +36,7 @@ def run():
     if doplot:
         print("voxelizator.get_first_volume_index():", voxelizator.get_first_volume_index())
         nbmarkers = voxelizator.get_first_volume_index() + voxelizator.get_volume_count()
-        # Create a matrix to extract only an Y slice of the 3D voxelisation (save lot of memory)
+        # Create a matrix to extract only an Y slice of the 3D voxelisation (saves lot of memory)
         pieceof = np.zeros((extract_shape[0], 1, extract_shape[2]), dtype=np.short)
         # Transfer data from voxel to numpy matrix
         data_filt = np.arange(nbmarkers, dtype=np.short)
@@ -49,14 +49,6 @@ def run():
         p = plt.matshow(np.rot90(pieceof[:, 0, :]), fignum=2, cmap=cm.get_cmap('jet', nbmarkers))
         colorbar(p, ticks=range(nbmarkers))
         show()
-    elif doexportvtk:
-        from evtk.hl import imageToVTK
-        # Create a matrix to extract only an Y slice of the 3D voxelisation (save lot of memory)
-        pieceof = np.zeros((extract_shape[0], extract_shape[1], extract_shape[2]), dtype=np.short)
-        # Transfer data from voxel to numpy matrix
-        voxelizator.copy_matrix(pieceof, minv)
-        imageToVTK(r"C:\tmp\elmia", cellData={"materials": np.array(pieceof, dtype="float32")})
-        time.sleep(1)
 
 
 run()
